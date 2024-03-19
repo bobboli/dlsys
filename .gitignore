@@ -1,0 +1,6 @@
+core
+*/__pycache__/*
+__pycache__/*
+wandb/*
+.vscode/*
+.idea
