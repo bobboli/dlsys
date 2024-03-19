@@ -1,7 +1,11 @@
-import numpy as np
+import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(__file__, "../../../python")))
+sys.path.append(os.path.abspath(os.path.join(__file__, "../../../apps")))
+sys.path.append(os.path.abspath(os.path.join(__file__, "../../../src")))
+
+import numpy as np
 import numdifftools as nd
-sys.path.append("./apps")
 import mugrade
 from simple_ml import *
 try:
