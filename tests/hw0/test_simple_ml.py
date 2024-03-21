@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(__file__, "../../../src")))
 import numpy as np
 import numdifftools as nd
 import mugrade
-from simple_ml import *
+from simple_ml_hw0 import *
 try:
     from simple_ml_ext import *
 except:
@@ -62,7 +62,7 @@ def submit_parse_mnist():
 ##############################################################################
 ### TESTS/SUBMISSION CODE FOR softmax_loss()
 
-def test_softmax_loss():
+def test_softmax_loss_hw0():
     X,y = parse_mnist("data/train-images-idx3-ubyte.gz",
                       "data/train-labels-idx1-ubyte.gz")
     np.random.seed(0)
@@ -118,9 +118,9 @@ def submit_softmax_regression_epoch():
     mugrade.submit(loss_err(X@theta, y))
 
 ##############################################################################
-### TESTS/SUBMISSION CODE FOR nn_epoch()
+### TESTS/SUBMISSION CODE FOR nn_epoch_hw0()
 
-def test_nn_epoch():
+def test_nn_epoch_hw0():
 
     # test nn gradients
     np.random.seed(0)
@@ -133,7 +133,7 @@ def test_nn_epoch():
     dW2 = nd.Gradient(lambda W2_ : 
         softmax_loss(np.maximum(X@W1,0)@W2_.reshape(10,3), y))(W2)
     W1_0, W2_0 = W1.copy(), W2.copy()
-    nn_epoch(X, y, W1, W2, lr=1.0, batch=50)
+    nn_epoch_hw0(X, y, W1, W2, lr=1.0, batch=50)
     np.testing.assert_allclose(dW1.reshape(5,10), W1_0-W1, rtol=1e-4, atol=1e-4)
     np.testing.assert_allclose(dW2.reshape(10,3), W2_0-W2, rtol=1e-4, atol=1e-4)
 
@@ -143,7 +143,7 @@ def test_nn_epoch():
     np.random.seed(0)
     W1 = np.random.randn(X.shape[1], 100).astype(np.float32) / np.sqrt(100)
     W2 = np.random.randn(100, 10).astype(np.float32) / np.sqrt(10)
-    nn_epoch(X, y, W1, W2, lr=0.2, batch=100)
+    nn_epoch_hw0(X, y, W1, W2, lr=0.2, batch=100)
     np.testing.assert_allclose(np.linalg.norm(W1), 28.437788, 
                                rtol=1e-5, atol=1e-5)
     np.testing.assert_allclose(np.linalg.norm(W2), 10.455095, 
@@ -159,14 +159,14 @@ def submit_nn_epoch():
     np.random.seed(1)
     W1 = np.random.randn(X.shape[1], 100).astype(np.float32) / np.sqrt(100)
     W2 = np.random.randn(100, 10).astype(np.float32) / np.sqrt(10)
-    nn_epoch(X[:100], y[:100], W1, W2, lr=0.1, batch=100)
+    nn_epoch_hw0(X[:100], y[:100], W1, W2, lr=0.1, batch=100)
     mugrade.submit(np.linalg.norm(W1))
     mugrade.submit(np.linalg.norm(W2))
 
     np.random.seed(1)
     W1 = np.random.randn(X.shape[1], 100).astype(np.float32) / np.sqrt(100)
     W2 = np.random.randn(100, 10).astype(np.float32) / np.sqrt(10)
-    nn_epoch(X, y, W1, W2, lr=0.2, batch=100)
+    nn_epoch_hw0(X, y, W1, W2, lr=0.2, batch=100)
     mugrade.submit(np.linalg.norm(W1))
     mugrade.submit(np.linalg.norm(W2))
     mugrade.submit(loss_err(np.maximum(X@W1,0)@W2, y))
