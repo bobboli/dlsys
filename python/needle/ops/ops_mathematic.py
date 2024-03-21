@@ -242,7 +242,8 @@ class Summation(TensorOp):
         a = node.inputs[0]
         shape = list(a.shape)  # Original shape (1,2,3,4)
         # After the summation that axis will disappear. We need to reshape to the shape as if keepdim=True
-        for ax in self.axes:
+        axes = self.axes if self.axes is not None else tuple(range(len(shape)))
+        for ax in axes:
             shape[ax] = 1
         grad = out_grad.reshape(tuple(shape))  # (1,2,1,4)
         # And then broadcast to the original shape
@@ -335,12 +336,15 @@ def exp(a):
 class ReLU(TensorOp):
     def compute(self, a):
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        return array_api.maximum(a, 0)
         ### END YOUR SOLUTION
 
     def gradient(self, out_grad, node):
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        a = node.inputs[0]
+        mask = a.realize_cached_data() <= 0
+        out_grad.realize_cached_data()[mask] = 0
+        return out_grad
         ### END YOUR SOLUTION
 
 
